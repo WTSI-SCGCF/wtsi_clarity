@@ -130,8 +130,8 @@ my $builder = $class->new(
                 'XML::SemanticDiff'               => 0,
                 'URI::Escape'                     => 0,
                 'POSIX'                           => 0,
-                'WTSI::DNAP::Utilities'           => '>= 0.4.1',
-                'WTSI::DNAP::RabbitMQ'            => '>= 0.3.0',
+                # 'WTSI::DNAP::Utilities'           => '>= 0.4.1',
+                # 'WTSI::DNAP::RabbitMQ'            => '>= 0.3.0',
                 'UUID::Tiny'                      => '>=1.04',
 
           },
