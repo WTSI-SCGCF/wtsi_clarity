@@ -1,22 +1,24 @@
-wtsi_clarity
-============
+scgcf_clarity
+=============
 
-Custom Perl scripting for GenoLogics (http://www.genologics.com) Clarity LIMS at Wellcome Trust Sanger Institute
+Custom scripting for GenoLogics (http://www.genologics.com) Clarity LIMS for the Single Cell Genomics Core Facility (SCGCF) at Wellcome Trust Sanger Institute.
+
+Forked from wtsi_clarity on 21st May 2015
 
 TESTING
 
-cd src/perl
-perl Build.PL
-./Build test
-  or
-TEST_AUTHOR=1  ./Build test
+$ cd src/perl
+$ perl Build.PL
+$ ./Build test
 
-to run an individual test
+or
 
-./Build test --verbose --test-files t/mytest.t
+$ TEST_AUTHOR=1  ./Build test
 
-to run groups of tests
+to run an individual test:
+$ ./Build test --verbose --test-files t/mytest.t
 
-./Build test --verbose --test-files 't/00-*.t' # note the quotes
+to run groups of tests:
+$ ./Build test --verbose --test-files 't/00-*.t' # note the quotes
 
 
