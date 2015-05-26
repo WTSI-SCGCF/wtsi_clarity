@@ -1,0 +1,142 @@
+#! /usr/bin/env perl
+
+use strict;
+use warnings;
+use FindBin qw($Bin);
+use lib ( -d "$Bin/../lib/perl5" ? "$Bin/../lib/perl5" : "$Bin/../lib" );
+use Carp;
+use English qw(-no_match_vars);
+use Try::Tiny;
+use DateTime;
+use Readonly;
+
+use wtsi_clarity::epp::mapper;
+
+our $VERSION = '0';
+
+Readonly::Scalar my $MAX_ERROR_MSG_LENGTH => 700;
+
+sub _format_long_error_message {
+  my $error_msg = shift;
+
+  my $msg = join q[   ], split /\R/smx, $error_msg;
+
+  return substr $msg, 0, $MAX_ERROR_MSG_LENGTH ;
+}
+
+sub _add_error_msg_id {
+  return DateTime->now->strftime(' [Error ID: %d%m%Y%H%M%S] ');
+}
+
+try {
+  my $process_url;
+  my @actions;
+  my @package_names = wtsi_clarity::epp::mapper->new_with_options()->package_names;
+
+  # Creating the action object(s)
+  foreach my $package_name (@package_names) {
+    my $loaded = eval "require $package_name";
+    if (!$loaded) {
+      croak qq[Failed to require $package_name: $EVAL_ERROR];
+    }
+    if (!defined $process_url) {
+      push @actions, $package_name->new_with_options();
+      $process_url = $actions[0]->process_url;
+    } else {
+      push @actions, $package_name->new_with_options(process_url=>$process_url);
+    }
+  }
+
+  # Executing the instantiated actions one by one
+  foreach my $action (@actions) {
+    $action->run();
+  }
+} catch {
+  my $error = $_;
+  print {*STDERR} $error or croak qq[Failed to write to the STDERR];
+  croak _add_error_msg_id . _format_long_error_message($error);
+};
+
+0;
+
+__END__
+
+=head1 NAME
+
+  epp
+
+=head1 USAGE
+
+  epp --action print_label --process_url http://some.com/process/456789 
+
+=head1 CONFIGURATION
+
+=head1 DESCRIPTION
+
+=head1 REQUIRED ARGUMENTS
+
+  --action
+  --process_url
+
+=head1 OPTIONS
+
+=head1 SUBROUTINES/METHODS
+
+=head1 DIAGNOSTICS
+
+=head1 CONFIGURATION AND ENVIRONMENT
+
+=head1 DEPENDENCIES
+
+=over
+
+=item strict
+
+=item warnings
+
+=item FindBin
+
+=item lib
+
+=item Carp
+
+=item English
+
+=item Try:Tiny
+
+=item DateTime
+
+=item Readonly
+
+=back
+
+=head1 INCOMPATIBILITIES
+
+=head1 EXIT STATUS
+
+=head1 BUGS AND LIMITATIONS
+
+=head1 AUTHOR
+
+Marina Gourtovaia E<lt>mg8@sanger.ac.ukE<gt>
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright (C) 2014 GRL, by Marina Gourtovaia
+
+This file is part of wtsi_clarity project.
+
+wtsi_clarity is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+=cut
