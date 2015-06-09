@@ -2,7 +2,7 @@ Changes
 MANIFEST
 README
 Build.PL
-bin/epp
+bin/scgcf_epp
 lib/wtsi_clarity/epp/generic/bed_verifier.pm
 lib/wtsi_clarity/epp/generic/external_barcode_creator.pm
 lib/wtsi_clarity/epp/generic/file_publisher.pm

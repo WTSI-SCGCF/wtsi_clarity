@@ -41,7 +41,7 @@ foreach my $file (@additional_files_to_copy) {
 
 
 {
-  system("$dir/bin/epp --action test_action1 --process_url dummy_url 2>$dir/lib/stderr.txt");
+  system("$dir/bin/scgcf_epp --action test_action1 --process_url dummy_url 2>$dir/lib/stderr.txt");
   open (my $fh, "<", "$dir/lib/stderr.txt");
   my $stderr;
   chomp($stderr = <$fh>);
@@ -53,7 +53,7 @@ foreach my $file (@additional_files_to_copy) {
 }
 
 {
-  system("$dir/bin/epp --action test_action1 --action test_action2 --process_url dummy_url 2>$dir/lib/stderr.txt");
+  system("$dir/bin/scgcf_epp --action test_action1 --action test_action2 --process_url dummy_url 2>$dir/lib/stderr.txt");
   open (my $fh, "<", "$dir/lib/stderr.txt");
   my $stderr = "";
   while(my $line = <$fh>) {
@@ -69,7 +69,7 @@ foreach my $file (@additional_files_to_copy) {
 }
 
 {
-  system("$dir/bin/epp --action test_action1 --action test_action3 --process_url dummy_url --test_action3_attr test_action3_attr_value 2>$dir/lib/stderr.txt");
+  system("$dir/bin/scgcf_epp --action test_action1 --action test_action3 --process_url dummy_url --test_action3_attr test_action3_attr_value 2>$dir/lib/stderr.txt");
   open (my $fh, "<", "$dir/lib/stderr.txt");
   my $stderr = "";
   while(my $line = <$fh>) {

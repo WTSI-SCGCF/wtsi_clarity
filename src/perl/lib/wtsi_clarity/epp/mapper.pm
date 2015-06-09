@@ -46,6 +46,8 @@ Readonly::Hash my %ACTION2MODULE => (
     'place_pools'                    => 'isc::pooling::pool_placer',
     'make_beckman_file'              => 'isc::pool_beckman_creator',
     'analyse_pool'                   => 'isc::pool_analyser',
+
+    'test_epp'                       => 'generic::test_epp',
 );
 
 has 'action'  => (
